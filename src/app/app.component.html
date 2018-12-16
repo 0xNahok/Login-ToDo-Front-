@@ -1,0 +1,41 @@
+<!--The content below is only a placeholder and can be replaced
+   
+  <ul class="nav navbar-nav navbar-right">
+    <li *ngIf="!auth.isLoggedIn()"><a routerLink="/login">Sign in</a></li>
+    <li *ngIf="auth.isLoggedIn()"><a routerLink="/profile">{{ auth.getUserDetails()?.name }}</a></li>
+    <li *ngIf="auth.isLoggedIn()"><a (click)="auth.logout()">Logout</a></li>
+  </ul>
+-->
+
+
+  
+  <ul class="nav justify-content-center">
+      <li class="nav-item" *ngIf="!auth.isLoggedIn()" >
+          <a class="nav-link active" routerLink="/" >Home</a>
+        </li>
+      <li class="nav-item" *ngIf="!auth.isLoggedIn()" >
+        <a class="nav-link active" routerLink="/login" >Sign in</a>
+      </li>
+      <li class="nav-item" *ngIf="!auth.isLoggedIn()" >
+          <a class="nav-link active" routerLink="/register" >Sign Up</a>
+        </li>
+      <li class="nav-item" *ngIf="auth.isLoggedIn()">
+        <a class="nav-link" routerLink="/profile">{{ auth.getUserDetails()?.username }}</a>
+      </li>
+      <li class="nav-item" *ngIf="auth.isLoggedIn()">
+        <a class="nav-link" (click)="auth.logout()">Logout</a>
+      </li>
+    </ul>
+
+
+   
+   
+<router-outlet></router-outlet>
+
+<notifier-container></notifier-container>
+
+
+
+
+
+  

@@ -1,0 +1,39 @@
+
+<img src="assets/svg/logo.svg" alt="" class="logosvg">
+
+<div class="box form">
+<div class="container">
+    <form [formGroup]="createForm" class="create-form" >
+    <div class="row center">
+      <div class="col-8">
+          <input type="text"  formControlName="title" #title>
+          <input type="hidden" formControlName="userID" #userID>
+        
+      </div>
+      <div class="col-4">
+          <button type="button" class="btn btn-primary btn-purple" (click)="addTodo(title.value)" >
+              Add 
+              </button>
+      </div>
+    </div>
+  </form>
+  </div>
+
+</div>
+     <div class="box" *ngFor= "let todo of Todo; index as i" >
+<div class="container">
+  <div class="row center">
+    <div class="col-8">
+        <h2> {{todo.title}} </h2> 
+      
+    </div>
+    <div class="col-4">
+        <button (click)="deleteTodo(todo._id)"class="btn btn-primary btn-purple">Done</button>
+    </div>
+  </div>
+</div>
+     
+
+</div>
+
+
