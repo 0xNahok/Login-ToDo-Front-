@@ -3,6 +3,15 @@ import { Router } from '@angular/router';
 import { Todo } from "../interfaces/todo";
 import { TodoListService } from '../services/todo-list.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotifierService } from 'angular-notifier';
+
+import { UsermodalComponent } from './usermodal/usermodal.component';
+
+export interface DataResponse {
+  type: string;
+  message: string;
+};
+
 
 @Component({
   selector: 'app-profile',
@@ -10,14 +19,20 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 
+
+
 export class ProfileComponent implements OnInit {
   createForm: FormGroup;
   Todo: Todo[];
   userID;
 
+ private readonly notifier: NotifierService;
+  private readonly modal : UsermodalComponent
 
-  constructor(private todoservice: TodoListService,  private router: Router,  private fb: FormBuilder, ) {
-
+  constructor(private todoservice: TodoListService, notifierService: NotifierService, private router: Router, private fb: FormBuilder ) {
+    
+    this.notifier = notifierService;
+    
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       userID: ''
@@ -26,10 +41,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.todoservice.getUserDetails();
-    this.fetchIssues();
+    this.fetchTodo();
   }
 
-  fetchIssues() {
+  openmodal(){
+    this.modal.open;
+  }
+ 
+  fetchTodo() {
     this.userID =this.todoservice.getUserDetails();
     this.todoservice
     .getlist()
@@ -41,17 +60,27 @@ export class ProfileComponent implements OnInit {
   }
 
  
-  deleteTodo(id) {
-    this.todoservice.deleteTodo(id).subscribe(() => {
-      this.fetchIssues();
+  updateTodo(id, status) {
+    console.log(id);
+    console.log(status);
+
+    this.todoservice.updateTodo(id, status).subscribe((data:DataResponse) => {
+    //  this.notifier.notify(data.type, data.message);
+     
+      this.fetchTodo();
+    }, (err)=>{
+      this.notifier.notify( err.error.type, err.error.message );
     });
   }
 
   addTodo(title) {
     this.userID =this.todoservice.getUserDetails();
+    this.todoservice.addTodo(title,this.userID).subscribe((data:DataResponse) => {
+    this.notifier.notify(data.type, data.message);
 
-    this.todoservice.addTodo(title,this.userID).subscribe(() => {
-      this.fetchIssues();
+      this.fetchTodo();
+    }, (err)=>{
+      this.notifier.notify( err.error.type, err.error.message );
     });
 
    

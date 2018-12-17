@@ -8,7 +8,7 @@
 }
 h2{
     font-size: 1.4rem;
-    padding-left: 5%;
+   
 }
 .btn-purple{
     width: 50%;
@@ -28,4 +28,27 @@ h2{
 }
 .center{
     align-items: center;
+}
+.center2 {
+margin: auto
+}
+
+.new{
+    background-color: rgb(5, 145, 107);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 13px 26px 0px;
+}
+.doing{
+    background-color: rgb(206, 162, 61);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 13px 26px 0px;
+}
+.done{
+background-color: #EF476F;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 13px 26px 0px;
+}
+.purple{
+    background-color:  rgb(42, 44, 106);;
+}
+
+.modal {
+    background-color: #E6E1C5;
 }

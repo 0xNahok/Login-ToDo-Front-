@@ -8,12 +8,12 @@ export interface TodoDetails {
   _id: string;
   title: string;
   userID: string;
-  completed: boolean;
+  status : number;  // 0 is new, 1 in progress, 2 Done
 }
 export interface UserDetails {
   _id: string;
   email: string;
-  name: string;
+  username: string;
   exp: number;
   iat: number;
 }
@@ -22,7 +22,7 @@ export interface UserDetails {
 export interface TokenPayload {
   email: string;
   password: string;
-  name?: string;
+  username?: string;
 }
 
 @Injectable({
@@ -71,10 +71,8 @@ export class TodoListService {
     return this.http.post(`${this.uri}/create`, todo);
   }
 
-  deleteTodo(id) {
- 
-    console.log(this.http.get(`${this.uri}/delete/${id}`));
-    return this.http.get(`${this.uri}/delete/${id}`);
+  updateTodo(id , status ) {
+    return this.http.get(`${this.uri}/update/${id}&${status}`);
     
   }
 

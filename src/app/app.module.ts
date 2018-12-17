@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { UsermodalComponent } from './profile/usermodal/usermodal.component';
 
 
 
@@ -70,6 +71,7 @@ const customNotifierOptions: NotifierOptions = {
     ProfileComponent,
     RegisterComponent,
     HomeComponent,
+    UsermodalComponent,
 
   ],
   imports: [

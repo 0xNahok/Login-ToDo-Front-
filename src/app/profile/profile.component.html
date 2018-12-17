@@ -1,6 +1,8 @@
 
 <img src="assets/svg/logo.svg" alt="" class="logosvg">
-
+ 
+  <app-usermodal></app-usermodal>
+  
 <div class="box form">
 <div class="container">
     <form [formGroup]="createForm" class="create-form" >
@@ -20,20 +22,56 @@
   </div>
 
 </div>
-     <div class="box" *ngFor= "let todo of Todo; index as i" >
-<div class="container">
-  <div class="row center">
-    <div class="col-8">
-        <h2> {{todo.title}} </h2> 
-      
-    </div>
-    <div class="col-4">
-        <button (click)="deleteTodo(todo._id)"class="btn btn-primary btn-purple">Done</button>
-    </div>
-  </div>
-</div>
      
 
-</div>
+
+    <div class="row " >
+     
+                    <div class="col-3 box center2" style="text-align: center">
+                        <h2 class="new"> New </h2> <hr>
+               <div *ngFor= "let todo of Todo; index as i"> 
+                   <div *ngIf="todo.status == 0">
+                        <h2> {{todo.title}} </h2> 
+                         
+                    <br>
+                    <button class="btn doing" (click)="updateTodo(todo._id,1)">Doing </button> ---
+                    <button class="btn done" (click)="updateTodo(todo._id,2)"> Done</button>
+                    <hr>
+                   </div>
+               </div>
+
+                     </div>
+
+                     <div class="col-3 box center2 " style="text-align: center">
+                        <h2 class="doing" >Doing</h2> <hr>
+                         <div *ngFor= "let todo of Todo; index as i"> 
+
+                                <div *ngIf="todo.status == 1">
+                                        <h2> {{todo.title}} </h2> 
+                                   
+                                    <br>
+                                    <button class="btn new" (click)="updateTodo(todo._id,0)">New </button> ---
+                                    <button class="btn done" (click)="updateTodo(todo._id,2)"> Done</button>
+                                    <hr>
+                                   </div>
+
+                           </div>
+                     </div>
+                     <div class="col-3 box center2" style="text-align: center">
+                            <h2 class="done" >Done</h2> <hr> 
+                          <div *ngFor= "let todo of Todo; index as i"> 
+                                <div *ngIf="todo.status == 2">
+                                        <h2> {{todo.title}} </h2> 
+                  
+                                    <br>
+                                    <button class="btn new" (click)="updateTodo(todo._id,0)">New </button> ---
+                                    <button class="btn doing" (click)="updateTodo(todo._id,1)"> Doing</button>
+                                    <hr>
+                                   </div>
+                           </div>
+                     </div>
+
+    </div>
+
 
 

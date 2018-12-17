@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { NotifierService } from 'angular-notifier';
 
 export interface UserDetails {
   _id: string;
   email: string;
+  username: string;
   name: string;
   exp: number;
   iat: number;
@@ -20,8 +20,11 @@ interface TokenResponse {
 
 export interface TokenPayload {
   email: string;
-  password: string;
-  name?: string;
+  password?: string;
+  repassword?: string;
+  username?: string;
+  name ?: string;
+  userID ?: string;
 }
 
 @Injectable()
@@ -73,7 +76,7 @@ export class AuthenticationService {
   }
 
 
-  private request(method: 'post'|'get', type: 'auth/login'|'auth/register'|'user/profile', user?: TokenPayload): Observable<any> {
+  private request(method: 'post'|'get', type: 'auth/login'|'auth/register'|'user/profile'| 'auth/update' , user?: TokenPayload): Observable<any> {
     let base;
   
     if (method === 'post') {
@@ -99,6 +102,10 @@ export class AuthenticationService {
   
   public register(user: TokenPayload): Observable<any> {
     return this.request('post', 'auth/register', user);
+  }
+
+  public update(user: TokenPayload): Observable<any> {
+    return this.request('post', 'auth/update', user);
   }
 
   public login(user: TokenPayload): Observable<any> {

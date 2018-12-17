@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication.service';
 import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-register',
@@ -10,10 +11,17 @@ import { Router } from '@angular/router';
 export class RegisterComponent   {
   credentials: TokenPayload = {
     email: '',
-    name: '',
-    password: ''
+    username: '',
+    password: '',
+    repassword: '',
+    name: ''
   };
-  constructor(private auth: AuthenticationService, private router: Router) {}
+
+  private readonly notifier: NotifierService;
+
+  constructor(private auth: AuthenticationService,  notifierService: NotifierService, private router: Router) {
+    this.notifier = notifierService;
+  }
 
   register() {
 
@@ -21,8 +29,10 @@ export class RegisterComponent   {
       console.log("Log");
       this.router.navigateByUrl('/profile');
     }, (err) => {
-      console.log("No-Log");
-      console.error(err.message);
+      console.log(this);
+      this.notifier.notify( err.error.type, err.error.message );
+      console.error(err.error.message);
+ 
     });
   }
 
