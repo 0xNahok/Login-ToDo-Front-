@@ -11,7 +11,7 @@ export interface UserDetails {
   name: string;
   exp: number;
   iat: number;
-}
+};
 
 
 @Component({

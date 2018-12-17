@@ -7,6 +7,9 @@ import { NotifierService } from 'angular-notifier';
 
 import { UsermodalComponent } from './usermodal/usermodal.component';
 
+import { FontAwesomeModule } from '@fortawesome/fontawesome-free';
+
+
 export interface DataResponse {
   type: string;
   message: string;
@@ -74,16 +77,24 @@ export class ProfileComponent implements OnInit {
   }
 
   addTodo(title) {
+    this.createForm.reset();
     this.userID =this.todoservice.getUserDetails();
+
     this.todoservice.addTodo(title,this.userID).subscribe((data:DataResponse) => {
     this.notifier.notify(data.type, data.message);
 
       this.fetchTodo();
+ 
     }, (err)=>{
       this.notifier.notify( err.error.type, err.error.message );
     });
 
    
+  }
+  deleteTodo(id) {
+    this.todoservice.deleteTodo(id).subscribe(() => {
+      this.fetchTodo();
+    });
   }
 }
 

@@ -2,6 +2,8 @@
 
 @import "~angular-notifier/styles";
 
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 html, body, div, span,
 h1, p, ul, li {
   padding: 0;

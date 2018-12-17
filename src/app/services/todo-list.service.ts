@@ -75,5 +75,7 @@ export class TodoListService {
     return this.http.get(`${this.uri}/update/${id}&${status}`);
     
   }
-
+  deleteTodo(id) {
+    return this.http.get(`${this.uri}/delete/${id}`);
+  }
 }
