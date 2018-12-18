@@ -54,14 +54,17 @@ export class UsermodalComponent implements OnInit {
     this.credentials.username = this.User.username;
     this.credentials.email = this.User.email;
   }
+
   update() {
+    this.modalService.dismissAll();
     console.log(this.credentials);
     this.auth.update(this.credentials).subscribe((data) => {
       console.log(data);
-      this.token = '';
-      window.localStorage.removeItem('mean-token');
-      this.router.navigateByUrl('/');
-      location.reload();
+      
+     this.token = '';
+     window.localStorage.removeItem('mean-token');
+     this.router.navigateByUrl('/');
+     location.reload();
     }, (err) => {
       console.log(this);
 
@@ -93,5 +96,9 @@ export class UsermodalComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content);
+  }
+  close(content)
+  {
+    this.modalService.dismissAll(content);
   }
 }

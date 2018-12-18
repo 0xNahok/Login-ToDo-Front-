@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Todo } from "../interfaces/todo";
+import { Todo } from '../interfaces/todo';
 import { TodoListService } from '../services/todo-list.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
@@ -9,6 +9,7 @@ import { UsermodalComponent } from './usermodal/usermodal.component';
 
 import { FontAwesomeModule } from '@fortawesome/fontawesome-free';
 
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 export interface DataResponse {
   type: string;
@@ -29,13 +30,19 @@ export class ProfileComponent implements OnInit {
   Todo: Todo[];
   userID;
 
- private readonly notifier: NotifierService;
-  private readonly modal : UsermodalComponent
+  drop(event: CdkDragDrop<string[]>) {
+    console.log(event.container.id);
+    console.log(event.item.element.nativeElement.id);
 
-  constructor(private todoservice: TodoListService, notifierService: NotifierService, private router: Router, private fb: FormBuilder ) {
-    
+    this.updateTodo( event.item.element.nativeElement.id, event.container.id )
+  }
+
+
+ private readonly notifier: NotifierService;
+  private readonly modal: UsermodalComponent;
+
+  constructor(private todoservice: TodoListService, notifierService: NotifierService, private router: Router, private fb: FormBuilder ) { 
     this.notifier = notifierService;
-    
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       userID: ''
@@ -50,7 +57,9 @@ export class ProfileComponent implements OnInit {
   openmodal(){
     this.modal.open;
   }
- 
+ show(id){
+   console.log(id)
+ }
   fetchTodo() {
     this.userID =this.todoservice.getUserDetails();
     this.todoservice
@@ -62,7 +71,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
- 
+
+  
   updateTodo(id, status) {
     console.log(id);
     console.log(status);

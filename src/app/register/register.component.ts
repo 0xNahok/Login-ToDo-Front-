@@ -30,6 +30,7 @@ export class RegisterComponent   {
       this.router.navigateByUrl('/profile');
     }, (err) => {
       console.log(this);
+      console.log(err);
       this.notifier.notify( err.error.type, err.error.message );
       console.error(err.error.message);
  

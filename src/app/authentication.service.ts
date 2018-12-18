@@ -76,7 +76,7 @@ export class AuthenticationService {
   }
 
 
-  private request(method: 'post'|'get', type: 'auth/login'|'auth/register'|'user/profile'| 'auth/update' , user?: TokenPayload): Observable<any> {
+  private request(method: 'post'|'get', type: 'auth/login'|'auth/register'|'user/profile'| 'auth/update' | 'auth/reset' , user?: TokenPayload): Observable<any> {
     let base;
   
     if (method === 'post') {
@@ -112,6 +112,9 @@ export class AuthenticationService {
     return this.request('post', 'auth/login', user);
   }
 
+  public resetpassword(user: TokenPayload): Observable<any> {
+    return this.request('post', 'auth/reset', user);
+  }
   public profile(): Observable<any> {
     return this.request('get', 'user/profile');
   }

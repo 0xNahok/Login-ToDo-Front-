@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="modal-body" style="background-color: #242656">
-      <form (submit) = "update()"> 
+      <form (submit) = "update(content)"> 
         <input type="hidden" name = 'id' value="{{ User._id }}">
         <div class="form-group">
           <label for="Username">Username</label>
@@ -46,7 +46,7 @@
       </form>
     </div>
     <div class="modal-footer" style="background-color: #242656">
-      <button type="submit" class="btn btn-outline-dark purple" >Save</button>
+      <button type="submit" class="btn btn-outline-dark purple" (click)="close(content)">Exit</button>
     </div>
   </ng-template>
 

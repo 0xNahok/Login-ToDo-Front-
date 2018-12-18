@@ -1,5 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "~angular-notifier/styles";
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat');

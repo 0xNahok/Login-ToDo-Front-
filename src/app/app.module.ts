@@ -19,9 +19,15 @@ import { HomeComponent } from './home/home.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+
 import { UsermodalComponent } from './profile/usermodal/usermodal.component';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+
+
+import {DemoMaterialModule} from './material-module';
+import { RecoverpComponent } from './recoverp/recoverp.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -72,6 +78,7 @@ const customNotifierOptions: NotifierOptions = {
     RegisterComponent,
     HomeComponent,
     UsermodalComponent,
+    RecoverpComponent,
 
   ],
   imports: [
@@ -82,7 +89,8 @@ const customNotifierOptions: NotifierOptions = {
     ReactiveFormsModule,
     NgbModule,
     NotifierModule.withConfig(customNotifierOptions),
-    
+    BrowserAnimationsModule,      
+    DemoMaterialModule
   ],
   providers: [
     TodoListService,
