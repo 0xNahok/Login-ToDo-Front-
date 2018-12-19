@@ -72,6 +72,14 @@ export class TodoListService {
     return this.http.get(`${this.uri}/update/${id}&${status}`);
     
   }
+  modifyTodo(title, idtodo){
+    const todo = {
+      title: title,
+      idtodo: idtodo
+    };
+    return this.http.post(`${this.uri}/modify`, todo);
+    
+  }
   deleteTodo(id) {
     return this.http.get(`${this.uri}/delete/${id}`);
   }

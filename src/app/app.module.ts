@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component'; 
 import { RegisterComponent} from './register/register.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent, BottomSheetOverviewExampleSheet  } from './profile/profile.component';
 import { AuthenticationService } from './authentication.service';
 import { AuthGuardService } from './auth-guard.service';
 import { HomeComponent } from './home/home.component';
@@ -23,9 +23,6 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { UsermodalComponent } from './profile/usermodal/usermodal.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
-
-
 import {DemoMaterialModule} from './material-module';
 import { RecoverpComponent } from './recoverp/recoverp.component';
 
@@ -79,7 +76,7 @@ const customNotifierOptions: NotifierOptions = {
     HomeComponent,
     UsermodalComponent,
     RecoverpComponent,
-
+    BottomSheetOverviewExampleSheet
   ],
   imports: [
     HttpClientModule,
@@ -97,6 +94,7 @@ const customNotifierOptions: NotifierOptions = {
     AuthenticationService, 
     AuthGuardService
   ],
+  entryComponents: [ProfileComponent, BottomSheetOverviewExampleSheet],
   bootstrap: [AppComponent]
 })
 
