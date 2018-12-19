@@ -50,6 +50,7 @@ export class ProfileComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.Todo = null;
     this.todoservice.getUserDetails();
     this.fetchTodo();
   }

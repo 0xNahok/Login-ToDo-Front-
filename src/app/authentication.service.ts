@@ -123,5 +123,6 @@ export class AuthenticationService {
     this.token = '';
     window.localStorage.removeItem('mean-token');
     this.router.navigateByUrl('/');
+    //location.reload();
   }
 }
