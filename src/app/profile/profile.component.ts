@@ -27,6 +27,9 @@ export interface DataResponse {
 export class ProfileComponent implements OnInit {
   createForm: FormGroup;
   Todo: Todo[];
+  Todo1: Todo[];
+  Todo2: Todo[];
+  Todo3: Todo[];
   userID;
 
   drop(event: CdkDragDrop<string[]>) {
