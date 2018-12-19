@@ -7,15 +7,17 @@
 <div class="container" >
     <form [formGroup]="createForm" class="create-form" >
     <div class="row center">
-      <div class="col-8">
+      <div class="col-md-8 col-sm-12">
           <input type="text"  formControlName="title" #title>
           <input type="hidden" formControlName="userID" #userID>
         
       </div>
-      <div class="col-4">
-          <button type="button" class="btn btn-primary btn-purple" (click)="addTodo(title.value)" >
-              Add 
-              </button>
+      <div class="col-md-4 col-sm-12">
+      
+                <button type="button" class="btn btn-primary btn-purple" (click)="addTodo(title.value)" >
+                        Add 
+                        </button>
+        
       </div>
     </div>
   </form>
@@ -25,7 +27,33 @@
      
 
 
-    <div class="row " >
+    <div class="row">
+
+               <div class="example-container box" id="trashcontainer" style="margin-bottom: 50px;">
+                  <h2 class="center" >Trash</h2>
+                
+                  <div
+                    cdkDropList
+                    id="trash"
+                    #trashList="cdkDropList"
+                 
+                    [cdkDropListConnectedTo]="[doingList, doneList]"
+                    class="trash-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div>
+                      <div class="example-box"  cdkDrag>
+                          <div cdkDragHandle>
+                            
+                              <br>
+                        </div>  
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+    </div>
+
+    <div class="row" >
      
                     <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
                         
@@ -46,14 +74,14 @@
                </div> -->
            
               <div class="example-container">
-                  <h2 class="new" >To do</h2>
+                  <h2 class="new" >To Do</h2>
                 
                   <div
                     cdkDropList
                     id="0"
                     #todoList="cdkDropList"
                  
-                    [cdkDropListConnectedTo]="[doingList, doneList]"
+                    [cdkDropListConnectedTo]="[doingList, doneList, trashList]"
                     class="example-list"
                     (cdkDropListDropped)="drop($event)">
                     <div *ngFor= "let todo of Todo; index as i">

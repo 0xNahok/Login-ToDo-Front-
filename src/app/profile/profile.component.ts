@@ -32,8 +32,14 @@ export class ProfileComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     console.log(event.container.id);
     console.log(event.item.element.nativeElement.id);
-
-    this.updateTodo( event.item.element.nativeElement.id, event.container.id )
+    if(event.container.id == 'trash'){
+      console.log("papelera");
+      this.deleteTodo(event.item.element.nativeElement.id);
+    }else if(event.container.id == '0' ||  event.container.id == '1' ||  event.container.id == '2'){
+      console.log(event.item.element.nativeElement.id);
+      this.updateTodo( event.item.element.nativeElement.id, event.container.id )
+    }
+    
   }
 
 
@@ -78,10 +84,8 @@ export class ProfileComponent implements OnInit {
   updateTodo(id, status) {
     console.log(id);
     console.log(status);
-
     this.todoservice.updateTodo(id, status).subscribe((data:DataResponse) => {
-    //  this.notifier.notify(data.type, data.message);
-     
+      this.notifier.notify(data.type, data.message);
       this.fetchTodo();
     }, (err)=>{
       this.notifier.notify( err.error.type, err.error.message );
@@ -94,9 +98,7 @@ export class ProfileComponent implements OnInit {
     console.log(title + " "+ this.userID );
     this.todoservice.addTodo(title,this.userID).subscribe((data:DataResponse) => {
     this.notifier.notify(data.type, data.message);
-
       this.fetchTodo();
- 
     }, (err)=>{
       this.notifier.notify( err.error.type, err.error.message );
     });
@@ -104,8 +106,9 @@ export class ProfileComponent implements OnInit {
    
   }
   deleteTodo(id) {
-    this.todoservice.deleteTodo(id).subscribe(() => {
+    this.todoservice.deleteTodo(id).subscribe((data:DataResponse) => {
       this.fetchTodo();
+      this.notifier.notify(data.type, data.message);
     });
   }
 }
