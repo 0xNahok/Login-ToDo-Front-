@@ -28,7 +28,6 @@
 
 
     <div class="row">
-
                <div class="example-container box" id="trashcontainer" style="margin-bottom: 50px;">
                   <h2 class="center" >Trash</h2>
                 
@@ -36,8 +35,8 @@
                     cdkDropList
                     id="trash"
                     #trashList="cdkDropList"
-                 
-                    [cdkDropListConnectedTo]="[doingList, doneList]"
+                    [cdkDropListData]="trash"
+                    [cdkDropListConnectedTo]="[doingList, doneList, todoList]"
                     class="trash-list"
                     (cdkDropListDropped)="drop($event)">
                     <div>
@@ -53,141 +52,180 @@
                 </div>
     </div>
 
-    <div class="row" >
+   <!-- 
+
+     <div class="row" >
      
-                    <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
-                        
-                    <!-- <h2 class="new"> New </h2> <hr>
-               <div *ngFor= "let todo of Todo; index as i"> 
-                   <div *ngIf="todo.status == 0">
-                        <h2> {{todo.title}} </h2> 
-                         
-                    <br>
-                    <button class="btn doing" (click)="updateTodo(todo._id,1)">Doing </button> 
-                    <button class="btn done" (click)="updateTodo(todo._id,2)"> Done</button>  
-                    <button type="button" class="btn btn-default btn-sm" (click) = "deleteTodo(todo._id)">
-                            <i class="fas fa-trash"></i>  
-                      </button>
-                    <hr>
-                  
-                   </div>
-               </div> -->
-           
+        <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
+  <div class="example-container">
+      <h2 class="new" >To Do</h2>
+    
+      <div
+        cdkDropList
+        id="0"
+        #todoList="cdkDropList"
+     
+        [cdkDropListConnectedTo]="[doingList, doneList, trashList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div *ngFor= "let todo of Todo; index as i">
+          <div class="example-box" *ngIf="todo.status == 0" id="{{todo._id}}" cdkDrag>
+              <div cdkDragHandle>
+                  {{todo.title}}
+                  <br>
+                  <hr class="newborde">
+              </div>
+          
+            <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+         </div>
+
+         <div class="col-sm-12 col-md-3 box center2 " style="text-align: center">                                
               <div class="example-container">
-                  <h2 class="new" >To Do</h2>
+                  <h2 class="doing" >Doing</h2>
                 
                   <div
                     cdkDropList
-                    id="0"
-                    #todoList="cdkDropList"
+                    id="1"
+                    #doingList="cdkDropList"
                  
-                    [cdkDropListConnectedTo]="[doingList, doneList, trashList]"
+                    [cdkDropListConnectedTo]="[todoList, doneList]"
                     class="example-list"
                     (cdkDropListDropped)="drop($event)">
                     <div *ngFor= "let todo of Todo; index as i">
-                      <div class="example-box" *ngIf="todo.status == 0" id="{{todo._id}}" cdkDrag>
-                          <div cdkDragHandle>
-                              {{todo.title}}
-                              <br>
-                              <hr class="newborde">
-                          </div>
-                      
-                        <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+                        <div class="example-box" *ngIf="todo.status == 1" id="{{todo._id}}" cdkDrag>
+                            <div cdkDragHandle>
+                                {{todo.title}}
+                                <br>
+                                <hr class="doingborde">
+                            </div>
+                          <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+                        </div>
                       </div>
-                     
-                    </div>
                   </div>
                 </div>
 
-                     </div>
+         </div>
+         <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
 
-                     <div class="col-sm-12 col-md-3 box center2 " style="text-align: center">
-                       <!-- <h2 class="doing" >Doing</h2> <hr>
-                         <div *ngFor= "let todo of Todo; index as i"> 
-
-                                <div *ngIf="todo.status == 1">
-                                        <h2> {{todo.title}} </h2> 
-                                   
-                                    <br>
-                                    <button class="btn new" (click)="updateTodo(todo._id,0)">New </button> ---
-                                    <button class="btn done" (click)="updateTodo(todo._id,2)"> Done</button> ---
-                                    <button type="button" class="btn btn-default btn-sm" (click) = "deleteTodo(todo._id)">
-                                            <i class="fas fa-trash"></i>  
-                                      </button>
-                                    <hr>
-                                    
-                                   </div>
-
-                           </div> -->
-                       
-                                                
-                          <div class="example-container">
-                              <h2 class="doing" >Doing</h2>
-                            
-                              <div
-                                cdkDropList
-                                id="1"
-                                #doingList="cdkDropList"
-                             
-                                [cdkDropListConnectedTo]="[todoList, doneList]"
-                                class="example-list"
-                                (cdkDropListDropped)="drop($event)">
-                                <div *ngFor= "let todo of Todo; index as i">
-                                    <div class="example-box" *ngIf="todo.status == 1" id="{{todo._id}}" cdkDrag>
-                                        <div cdkDragHandle>
-                                            {{todo.title}}
-                                            <br>
-                                            <hr class="doingborde">
-                                        </div>
-                                      <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-                                    </div>
-                                  </div>
-                              </div>
+              <div class="example-container">
+                  <h2 class="done">Done</h2>
+                
+                  <div
+                    cdkDropList
+                    id="2"
+                    #doneList="cdkDropList"
+                 
+                    [cdkDropListConnectedTo]="[todoList, doingList]"
+                    class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div *ngFor= "let todo of Todo; index as i">
+                        <div class="example-box" *ngIf="todo.status == 2" id="{{todo._id}}" cdkDrag>
+                            <div cdkDragHandle>
+                                {{todo.title}}
+                                <br>
+                                <hr class="doneborde">
                             </div>
-  
-                     </div>
-                     <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
-                            <!-- <h2 class="done" >Done</h2> <hr> 
-                          <div *ngFor= "let todo of Todo; index as i"> 
-                                <div *ngIf="todo.status == 2">
-                                        <h2> {{todo.title}} </h2> 
-                                    <br>
-                                    <button class="btn new" (click)="updateTodo(todo._id,0)">New </button> ---
-                                    <button class="btn doing" (click)="updateTodo(todo._id,1)"> Doing</button> --- 
-                                    <button type="button" class="btn btn-default btn-sm" (click) = "deleteTodo(todo._id)">
-                                            <i class="fas fa-trash"></i>  
-                                      </button>
-                                    <hr>
-                                    
-                                   </div>
-                           </div> -->
+                          <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+                        </div>
+                      </div>
+                  </div>
+                </div> 
+         </div>
 
-                          <div class="example-container">
-                              <h2 class="done">Done</h2>
-                            
-                              <div
-                                cdkDropList
-                                id="2"
-                                #doneList="cdkDropList"
-                             
-                                [cdkDropListConnectedTo]="[todoList, doingList]"
-                                class="example-list"
-                                (cdkDropListDropped)="drop($event)">
-                                <div *ngFor= "let todo of Todo; index as i">
-                                    <div class="example-box" *ngIf="todo.status == 2" id="{{todo._id}}" cdkDrag>
-                                        <div cdkDragHandle>
-                                            {{todo.title}}
-                                            <br>
-                                            <hr class="doneborde">
-                                        </div>
-                                      <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-                                    </div>
-                                  </div>
-                              </div>
-                            </div> 
-                     </div>
+</div>
 
+
+
+    -->
+
+
+
+<div class="row" >
+     
+    <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
+    <div class="example-container">
+      <h2 class="new" >To Do</h2>
+
+      <div
+        cdkDropList
+        id="0"
+        #todoList="cdkDropList"
+        [cdkDropListData]="newtodo"
+        [cdkDropListConnectedTo]="[doingList, doneList, trashList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+
+          <div class="example-box" *ngFor= "let todo of newtodo; index as i" id="{{todo._id}}" cdkDrag>
+              <div cdkDragHandle>
+                  {{todo.title}}
+                  <br>
+                  <hr class="newborde">
+              </div>
+          
+            <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+          </div>
+      </div>
     </div>
+
+     </div>
+
+     <div class="col-sm-12 col-md-3 box center2 " style="text-align: center">
+             
+          <div class="example-container">
+              <h2 class="doing" >Doing</h2>
+            
+              <div
+                cdkDropList
+                id="1"
+                #doingList="cdkDropList"
+                [cdkDropListData]="doing"
+                [cdkDropListConnectedTo]="[todoList, doneList, trashList]"
+                class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                    <div class="example-box"  *ngFor= "let todo of doing; index as i" id="{{todo._id}}" cdkDrag>
+                        <div cdkDragHandle>
+                            {{todo.title}}
+                            <br>
+                            <hr class="doingborde">
+                        </div>
+                      <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+                    </div>
+              </div>
+            </div>
+
+     </div>
+
+     <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
+              <div class="example-container">
+              <h2 class="done">Done</h2>
+            
+              <div
+                cdkDropList
+                id="2"
+                #doneList="cdkDropList"
+                [cdkDropListData]="done"
+                [cdkDropListConnectedTo]="[todoList, doingList, trashList]"
+                class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor= "let todo of done; index as i" id="{{todo._id}}" cdkDrag>
+                        <div cdkDragHandle>
+                            {{todo.title}}
+                            <br>
+                            <hr class="doneborde">
+                        </div>
+                      <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
+                    </div>
+              </div>
+            </div> 
+     </div>
+
+</div>
 
 
 

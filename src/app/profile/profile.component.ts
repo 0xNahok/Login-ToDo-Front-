@@ -27,22 +27,50 @@ export interface DataResponse {
 export class ProfileComponent implements OnInit {
   createForm: FormGroup;
   Todo: Todo[];
-  Todo1: Todo[];
-  Todo2: Todo[];
-  Todo3: Todo[];
+  newtodo= [];
+  doing= [];
+  done= [];
+  trash=[];
   userID;
 
   drop(event: CdkDragDrop<string[]>) {
     console.log(event.container.id);
     console.log(event.item.element.nativeElement.id);
+    /*
+   
+
     if(event.container.id == 'trash'){
       console.log("papelera");
-      this.deleteTodo(event.item.element.nativeElement.id);
+     // this.deleteTodo(event.item.element.nativeElement.id);
     }else if(event.container.id == '0' ||  event.container.id == '1' ||  event.container.id == '2'){
       console.log(event.item.element.nativeElement.id);
-      this.updateTodo( event.item.element.nativeElement.id, event.container.id )
+      //this.updateTodo( event.item.element.nativeElement.id, event.container.id )
     }
-    
+    */
+   if (event.previousContainer === event.container) {
+  
+
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+        
+          transferArrayItem(event.previousContainer.data,
+                            event.container.data,
+                            event.previousIndex,
+                            event.currentIndex);
+      
+               
+              if(event.container.id == 'trash')
+              {
+                  
+                this.deleteTodo(event.item.element.nativeElement.id);
+              }else if(event.container.id == '0' ||  event.container.id == '1' ||  event.container.id == '2')
+                {
+          
+                this.updateTodo( event.item.element.nativeElement.id, event.container.id )
+                }
+
+  }
+
   }
 
 
@@ -70,26 +98,46 @@ export class ProfileComponent implements OnInit {
    console.log(id)
  }
   fetchTodo() {
-    console.log("fetch");
-    console.log(this.userID);
-    console.log("fetch");
-    //this.userID =this.todoservice.getUserDetails();
+   
+    //console.log(this.userID);
+
+  
+
     this.todoservice.getlist(this.userID)
     .subscribe((data: Todo[]) => {
+      this.newtodo= [];
+      this.doing= [];
+      this.done= [];
+      this.trash=[];
+      
       this.Todo = data;
-      console.log('Data requested ... ');
-      console.log(this.Todo);
+     
+      this.Todo.forEach(element => {
+        
+        if(element.status==0){
+            this.newtodo.push(element);
+        }
+        if(element.status == 1){
+          this.doing.push(element);
+        }
+        if(element.status == 2){
+          this.done.push(element);
+        }
+      });
+
+      
+ 
     });
+
   }
 
 
   
   updateTodo(id, status) {
-    console.log(id);
-    console.log(status);
+   
     this.todoservice.updateTodo(id, status).subscribe((data:DataResponse) => {
       this.notifier.notify(data.type, data.message);
-      this.fetchTodo();
+      //this.fetchTodo();
     }, (err)=>{
       this.notifier.notify( err.error.type, err.error.message );
     });
@@ -98,10 +146,12 @@ export class ProfileComponent implements OnInit {
   addTodo(title) {
     this.createForm.reset();
     
-    console.log(title + " "+ this.userID );
-    this.todoservice.addTodo(title,this.userID).subscribe((data:DataResponse) => {
-    this.notifier.notify(data.type, data.message);
-      this.fetchTodo();
+    
+    this.todoservice.addTodo(title,this.userID).subscribe((data) => {
+      this.newtodo.push(data);
+
+    //this.notifier.notify(data.type, data.message);
+      //this.fetchTodo();
     }, (err)=>{
       this.notifier.notify( err.error.type, err.error.message );
     });
@@ -109,8 +159,9 @@ export class ProfileComponent implements OnInit {
    
   }
   deleteTodo(id) {
+
     this.todoservice.deleteTodo(id).subscribe((data:DataResponse) => {
-      this.fetchTodo();
+     this.fetchTodo();
       this.notifier.notify(data.type, data.message);
     });
   }

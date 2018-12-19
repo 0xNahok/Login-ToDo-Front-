@@ -20,7 +20,7 @@
           <a class="nav-link active" routerLink="/register" >Sign Up</a>
         </li>
       <li class="nav-item" *ngIf="auth.isLoggedIn()">
-        <a class="nav-link" routerLink="/profile">{{ auth.getUserDetails()?.username }} -   <app-usermodal></app-usermodal></a>
+        <a class="nav-link" routerLink="/profile">{{ auth.getUserDetails()?.username }}    <app-usermodal></app-usermodal></a>
         
       </li>
       <li class="nav-item" *ngIf="auth.isLoggedIn()">
