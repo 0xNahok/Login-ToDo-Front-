@@ -50,16 +50,13 @@ export class TodoListService {
       payload = token.split('.')[1];
       payload = window.atob(payload);
       let JSONpayload = JSON.parse(payload);
-      console.log(JSONpayload._id);
       return JSONpayload._id;
     } else {
       return null;
     }
   }
   
-  getlist() {
-   let userID= this.getUserDetails();
-  
+  getlist(userID) {
     return this.http.get(`${this.uri}/`+userID);
   }
 

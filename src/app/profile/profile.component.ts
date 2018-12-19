@@ -6,8 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 
 import { UsermodalComponent } from './usermodal/usermodal.component';
-
-import { FontAwesomeModule } from '@fortawesome/fontawesome-free';
+import { AuthenticationService } from '../authentication.service';
 
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
@@ -41,8 +40,9 @@ export class ProfileComponent implements OnInit {
  private readonly notifier: NotifierService;
   private readonly modal: UsermodalComponent;
 
-  constructor(private todoservice: TodoListService, notifierService: NotifierService, private router: Router, private fb: FormBuilder ) { 
+  constructor(private todoservice: TodoListService, notifierService: NotifierService, private router: Router, private fb: FormBuilder, public auth: AuthenticationService ) { 
     this.notifier = notifierService;
+  
     this.createForm = this.fb.group({
       title: ['', Validators.required],
       userID: ''
@@ -50,8 +50,7 @@ export class ProfileComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.Todo = null;
-    this.todoservice.getUserDetails();
+    this.userID =this.auth.getUserDetails()._id;
     this.fetchTodo();
   }
 
@@ -62,9 +61,11 @@ export class ProfileComponent implements OnInit {
    console.log(id)
  }
   fetchTodo() {
-    this.userID =this.todoservice.getUserDetails();
-    this.todoservice
-    .getlist()
+    console.log("fetch");
+    console.log(this.userID);
+    console.log("fetch");
+    //this.userID =this.todoservice.getUserDetails();
+    this.todoservice.getlist(this.userID)
     .subscribe((data: Todo[]) => {
       this.Todo = data;
       console.log('Data requested ... ');
@@ -89,8 +90,8 @@ export class ProfileComponent implements OnInit {
 
   addTodo(title) {
     this.createForm.reset();
-    this.userID =this.todoservice.getUserDetails();
-
+    
+    console.log(title + " "+ this.userID );
     this.todoservice.addTodo(title,this.userID).subscribe((data:DataResponse) => {
     this.notifier.notify(data.type, data.message);
 
