@@ -51,101 +51,6 @@
                   </div>
                 </div>
     </div>
-
-   <!-- 
-
-     <div class="row" >
-     
-        <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
-  <div class="example-container">
-      <h2 class="new" >To Do</h2>
-    
-      <div
-        cdkDropList
-        id="0"
-        #todoList="cdkDropList"
-     
-        [cdkDropListConnectedTo]="[doingList, doneList, trashList]"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div *ngFor= "let todo of Todo; index as i">
-          <div class="example-box" *ngIf="todo.status == 0" id="{{todo._id}}" cdkDrag>
-              <div cdkDragHandle>
-                  {{todo.title}}
-                  <br>
-                  <hr class="newborde">
-              </div>
-          
-            <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-          </div>
-         
-        </div>
-      </div>
-    </div>
-
-         </div>
-
-         <div class="col-sm-12 col-md-3 box center2 " style="text-align: center">                                
-              <div class="example-container">
-                  <h2 class="doing" >Doing</h2>
-                
-                  <div
-                    cdkDropList
-                    id="1"
-                    #doingList="cdkDropList"
-                 
-                    [cdkDropListConnectedTo]="[todoList, doneList]"
-                    class="example-list"
-                    (cdkDropListDropped)="drop($event)">
-                    <div *ngFor= "let todo of Todo; index as i">
-                        <div class="example-box" *ngIf="todo.status == 1" id="{{todo._id}}" cdkDrag>
-                            <div cdkDragHandle>
-                                {{todo.title}}
-                                <br>
-                                <hr class="doingborde">
-                            </div>
-                          <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-                        </div>
-                      </div>
-                  </div>
-                </div>
-
-         </div>
-         <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
-
-              <div class="example-container">
-                  <h2 class="done">Done</h2>
-                
-                  <div
-                    cdkDropList
-                    id="2"
-                    #doneList="cdkDropList"
-                 
-                    [cdkDropListConnectedTo]="[todoList, doingList]"
-                    class="example-list"
-                    (cdkDropListDropped)="drop($event)">
-                    <div *ngFor= "let todo of Todo; index as i">
-                        <div class="example-box" *ngIf="todo.status == 2" id="{{todo._id}}" cdkDrag>
-                            <div cdkDragHandle>
-                                {{todo.title}}
-                                <br>
-                                <hr class="doneborde">
-                            </div>
-                          <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-                        </div>
-                      </div>
-                  </div>
-                </div> 
-         </div>
-
-</div>
-
-
-
-    -->
-
-
-
 <div class="row" >
      
     <div class="col-sm-12 col-md-3 box center2" style="text-align: center">
@@ -169,7 +74,7 @@
               </div>
           
             <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-            <button mat-raised-button (click)="openBottomSheet(todo._id)">Edit</button>
+            <button mat-raised-button (click)="openBottomSheet(todo._id, todo.title)">Edit</button>
 
           </div>
       </div>
@@ -197,7 +102,7 @@
                             <hr class="doingborde">
                         </div>
                       <i class="fas fa-trash" (click)="deleteTodo(todo._id)"></i>  
-                      <button mat-raised-button (click)="openBottomSheet(todo._id)">Edit</button>
+                      <button mat-raised-button (click)="openBottomSheet(todo._id,todo.title)">Edit</button>
 
                     </div>
               </div>

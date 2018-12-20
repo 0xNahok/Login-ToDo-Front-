@@ -1,14 +1,14 @@
 <mat-nav-list>
     
-        <h1> {{ data.name }} </h1><h1> {{ data.lastname }} </h1>
-        <form [formGroup]="EditForm" class="EditForm" >
+        <h1> {{ data.id }} </h1><h1> {{ data.title }} </h1>
+        <form [formGroup]="EditForm" class="EditForm"  (ngSubmit)="onSubmit()">
             <div class=" center">
               
                   <input type="text"  formControlName="titledit" #titledit>
                   <input type="hidden" formControlName="todoID" #todoID>
               <div class="">
               
-                        <button type="button" class="btn btn-primary btn-purple" (click)="addTodo(title.value)" >
+                        <button type="submit" class="btn btn-primary btn-purple" >
                                 Add 
                                 </button>
                 

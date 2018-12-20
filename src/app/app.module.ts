@@ -92,7 +92,8 @@ const customNotifierOptions: NotifierOptions = {
   providers: [
     TodoListService,
     AuthenticationService, 
-    AuthGuardService
+    AuthGuardService,
+    ProfileComponent
   ],
   entryComponents: [ProfileComponent, BottomSheetOverviewExampleSheet],
   bootstrap: [AppComponent]

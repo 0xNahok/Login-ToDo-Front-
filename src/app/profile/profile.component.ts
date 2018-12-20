@@ -12,6 +12,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
+import { Profile } from 'selenium-webdriver/firefox';
 export interface DataResponse {
   type: string;
   message: string;
@@ -37,37 +38,23 @@ export class ProfileComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     console.log(event.container.id);
     console.log(event.item.element.nativeElement.id);
-    /*
-   
-
-    if(event.container.id == 'trash'){
-      console.log("papelera");
-     // this.deleteTodo(event.item.element.nativeElement.id);
-    }else if(event.container.id == '0' ||  event.container.id == '1' ||  event.container.id == '2'){
-      console.log(event.item.element.nativeElement.id);
-      //this.updateTodo( event.item.element.nativeElement.id, event.container.id )
-    }
-    */
    if (event.previousContainer === event.container) {
   
 
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
-        
           transferArrayItem(event.previousContainer.data,
                             event.container.data,
                             event.previousIndex,
                             event.currentIndex);
               if(event.container.id == 'trash')
               {
-                  
-                this.deleteTodo(event.item.element.nativeElement.id);
+               this.deleteTodo(event.item.element.nativeElement.id);
               }else if(event.container.id == '0' ||  event.container.id == '1' ||  event.container.id == '2')
-                {
+              {
           
                 this.updateTodo( event.item.element.nativeElement.id, event.container.id )
-                }
-
+              }
     }
 
   }
@@ -85,8 +72,9 @@ export class ProfileComponent implements OnInit {
     });
    }
 
-   openBottomSheet(id, title ): void {
+   openBottomSheet(id, title): void {
      console.log(id);
+     console.log(title);
       this.bottomSheet.open(BottomSheetOverviewExampleSheet, {
         data: { id: id,
               title: title,
@@ -96,7 +84,7 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
       this.userID =this.auth.getUserDetails()._id;
-      this.fetchTodo();
+      this.fetchTodo(this.userID);
     }
 
     openmodal(){
@@ -105,23 +93,16 @@ export class ProfileComponent implements OnInit {
   show(id){
     console.log(id)
   }
-    fetchTodo() {
-    
-      //console.log(this.userID);
-
-    
-
-      this.todoservice.getlist(this.userID)
+    fetchTodo(userID) {
+      console.log("Fetch");
+      this.todoservice.getlist(userID)
       .subscribe((data: Todo[]) => {
         this.newtodo= [];
         this.doing= [];
         this.done= [];
         this.trash=[];
-        
         this.Todo = data;
-      
         this.Todo.forEach(element => {
-          
           if(element.status==0){
               this.newtodo.push(element);
           }
@@ -133,14 +114,11 @@ export class ProfileComponent implements OnInit {
           }
         });
 
-        
+          console.log(this.Todo);
   
       });
-
+      console.log("EndFetch");
     }
-
-
-    
     updateTodo(id, status) {
     
       this.todoservice.updateTodo(id, status).subscribe((data:DataResponse) => {
@@ -167,7 +145,7 @@ export class ProfileComponent implements OnInit {
     deleteTodo(id) {
 
       this.todoservice.deleteTodo(id).subscribe((data:DataResponse) => {
-      this.fetchTodo();
+      this.fetchTodo(this.userID);
         this.notifier.notify(data.type, data.message);
       });
     }
@@ -180,31 +158,43 @@ export class ProfileComponent implements OnInit {
 })
 export class BottomSheetOverviewExampleSheet {
   EditForm: FormGroup;
+  userID;
 
-  constructor(private todoservice: TodoListService,  private router: Router, private bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any, private fb: FormBuilder) {
+  constructor(public prof: ProfileComponent, private todoservice: TodoListService, public auth: AuthenticationService, private bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any, private fb: FormBuilder)
+   {  this.userID=auth.getUserDetails()._id;
     this.EditForm = this.fb.group({
       titledit: ['', Validators.required],
       todoID: ''
     });
-  }
 
-  openLink(event: MouseEvent): void {
-    this.bottomSheetRef.dismiss();
-    event.preventDefault();
-
-  }
-
-  edit() {
-
-    this.todoservice.modifyTodo(1, 1).subscribe(() => {
-      console.log("Edit ");
-    
-    }, (err) => {
-      console.log(this);
-      console.log(err);
-      //this.notifier.notify( err.error.type, err.error.message );
-      console.error(err.error.message);
- 
+    this.EditForm.setValue({
+      titledit: data.title, 
+      todoID: data.id
     });
+
+   
+    console.log(this.EditForm);
   }
+
+      openLink(event: MouseEvent): void {
+        this.bottomSheetRef.dismiss();
+        event.preventDefault();
+      
+      }
+
+      onSubmit() {
+        console.warn(this.EditForm.value);
+        this.todoservice.modifyTodo(this.EditForm.value).subscribe((data) => {
+          console.log("Done") ;
+        this.prof.fetchTodo(this.userID);
+        }, (err) => {
+          console.log("Error");
+          console.log(err);
+          //this.notifier.notify( err.error.type, err.error.message );
+          console.error(err.error.message);
+    
+        });
+      }
+
+ 
 }
