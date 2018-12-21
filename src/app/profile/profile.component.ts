@@ -93,32 +93,34 @@ export class ProfileComponent implements OnInit {
   show(id){
     console.log(id)
   }
-    fetchTodo(userID) {
-      console.log("Fetch");
-      this.todoservice.getlist(userID)
-      .subscribe((data: Todo[]) => {
-        this.newtodo= [];
-        this.doing= [];
-        this.done= [];
-        this.trash=[];
-        this.Todo = data;
-        this.Todo.forEach(element => {
-          if(element.status==0){
-              this.newtodo.push(element);
-          }
-          if(element.status == 1){
-            this.doing.push(element);
-          }
-          if(element.status == 2){
-            this.done.push(element);
-          }
-        });
+  fetchTodo(userID) {
+    console.log("Fetch");
+    this.todoservice.getlist(userID)
+    .subscribe((data: Todo[]) => {
+      this.newtodo= [];
+      this.doing= [];
+      this.done= [];
+      this.trash=[];
+      this.Todo = data;
 
-          console.log(this.Todo);
-  
+      console.log(this.Todo);
+      this.Todo.forEach(element => {
+        if(element.status==0){
+            this.newtodo.push(element);
+        }
+        if(element.status == 1){
+          this.doing.push(element);
+        }
+        if(element.status == 2){
+          this.done.push(element);
+        }
       });
-      console.log("EndFetch");
-    }
+
+        console.log(this.Todo);
+
+    });
+    console.log("EndFetch");
+  }
     updateTodo(id, status) {
     
       this.todoservice.updateTodo(id, status).subscribe((data:DataResponse) => {
@@ -137,6 +139,7 @@ export class ProfileComponent implements OnInit {
       //this.notifier.notify(data.type, data.message);
         //this.fetchTodo();
       }, (err)=>{
+        console.log(err);
         this.notifier.notify( err.error.type, err.error.message );
       });
 
@@ -172,21 +175,14 @@ export class BottomSheetOverviewExampleSheet {
       todoID: data.id
     });
 
-   
-    console.log(this.EditForm);
   }
-
-      openLink(event: MouseEvent): void {
-        this.bottomSheetRef.dismiss();
-        event.preventDefault();
-      
-      }
 
       onSubmit() {
         console.warn(this.EditForm.value);
+        this.bottomSheetRef.dismiss();
         this.todoservice.modifyTodo(this.EditForm.value).subscribe((data) => {
           console.log("Done") ;
-        this.prof.fetchTodo(this.userID);
+        this.fetchTodo(this.userID);
         }, (err) => {
           console.log("Error");
           console.log(err);
@@ -195,6 +191,37 @@ export class BottomSheetOverviewExampleSheet {
     
         });
       }
-
+      Close(event: MouseEvent){
+        console.log(event);
+      }
  
+      fetchTodo(userID) {
+        console.log("Fetch");
+        this.todoservice.getlist(userID)
+        .subscribe((data: Todo[]) => {
+          this.prof.newtodo= [];
+           this.prof.doing= [];
+           this.prof.done= [];
+           this.prof.trash=[];
+           this.prof.Todo = data;
+    
+          console.log( this.prof.Todo);
+          this.prof.Todo.forEach(element => {
+            if(element.status==0){
+              this.prof.newtodo.push(element);
+            }
+            if(element.status == 1){
+              this.prof.doing.push(element);
+            }
+            if(element.status == 2){
+              this.prof.done.push(element);
+            }
+          });
+    
+            console.log( this.prof.Todo);
+    
+        });
+        console.log("EndFetch");
+      }
+
 }
